@@ -1,5 +1,7 @@
 <?php
-require_once('../Gateways/TestLicenseGateway.php');
+echo "test_controller";
+require_once('../gateways/TestLicenseGateway.php');
+
 
 class LicenseController
 {

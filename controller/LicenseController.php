@@ -11,12 +11,17 @@ class LicenseController
 
     private $personGateway;
 
-    public function __construct($db, $requestMethod, $productName, $deviceUDID)
+    public function __construct($db, $requestMethod, $param1, $param2)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->productName = $productName;
-        $this->deviceUDID = $deviceUDID;
+
+        if(isset($param2)){
+            $this->productName = $param1;
+            $this->deviceUDID = $param2;
+        }else{
+            $this->deviceUDID = $param1;
+        }
 
         $this->licenseGateway = new TestLicenseGateway($db);
     }

@@ -21,15 +21,15 @@ if ($uri[2] !== 'license') {
 }
 
 // the product is optional but must be a string:
-$productName = null;
+$param1 = null;
 if (isset($uri[3])) {
-    $productName = (string) $uri[3];
+    $param1 = (string) $uri[3];
 }
 
 // the license UDID is optional but must be a number:
-$deviceUDID = null;
+$param2 = null;
 if (isset($uri[4])) {
-    $deviceUDID = (string) $uri[4];
+    $param2 = (string) $uri[4];
 }
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -39,9 +39,6 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 $database = new Database();
 $dbConnection = $database->getConnection();
 
-/* echo $deviceUDID;
-echo $productName; */
-
 // pass the request method and user ID to the PersonController:
-$controller = new LicenseController($dbConnection, $requestMethod, $productName, $deviceUDID);
+$controller = new LicenseController($dbConnection, $requestMethod, $param1, $param2);
 $controller->processRequest();

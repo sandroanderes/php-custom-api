@@ -26,7 +26,7 @@ class LicenseController
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->productName and $this->deviceUDID) {
+                if ($this->productName AND $this->deviceUDID) {
                     $response = $this->checkLicense($this->productName, $this->deviceUDID);
                 } else {
                     $response = $this->getAllLicenses();

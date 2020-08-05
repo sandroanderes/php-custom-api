@@ -23,7 +23,7 @@ if ($uri[2] !== 'license') {
 // the product is optional but must be a string:
 $productName = null;
 if (isset($uri[3])) {
-    $productName = (string) $uri[5];
+    $productName = (string) $uri[3];
 }
 
 // the license UDID is optional but must be a number:

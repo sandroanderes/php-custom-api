@@ -1,33 +1,33 @@
 <?php
-echo "test_controller";
 require_once('../gateways/TestLicenseGateway.php');
-
 
 class LicenseController
 {
 
     private $db;
     private $requestMethod;
-    private $userId;
+    private $productName;
+    private $deviceUDID;
 
     private $personGateway;
 
-    public function __construct($db, $requestMethod, $deviceUDID, $productName)
+    public function __construct($db, $requestMethod, $productName, $deviceUDID)
     {
         $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->deviceUDID = $deviceUDID;
         $this->productName = $productName;
+        $this->deviceUDID = $deviceUDID;
 
         $this->licenseGateway = new TestLicenseGateway($db);
     }
 
+    // switch case for different request methodes
     public function processRequest()
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->deviceUDID and $this->productName) {
-                    $response = $this->checkLicense($this->deviceUDID, $this->productName);
+                if ($this->productName and $this->deviceUDID) {
+                    $response = $this->checkLicense($this->productName, $this->deviceUDID);
                 } else {
                     $response = $this->getAllLicenses();
                 };
@@ -35,9 +35,9 @@ class LicenseController
             case 'POST':
                 $response = $this->createLicense();
                 break;
-            case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
-                break;
+                /* case 'PUT':
+                $response = $this->updateLicense($this->deviceUDID);
+                break; */
             case 'DELETE':
                 $response = $this->deleteLicense($this->deviceUDID);
                 break;
@@ -61,13 +61,15 @@ class LicenseController
     }
 
     // check if license is valid
-    private function checkLicense($udid, $product)
+    private function checkLicense($product, $udid)
     {
 
         //get current date
         $today = date(DateTime::ISO8601);
 
-        $result = $this->licenseGateway->check($udid, $product);
+        $result = $this->licenseGateway->check($product, $udid);
+        
+        //check if udid is equal null or valid_until is smaller than the present date
         if ($result['udid'] == null or $result['valid_until'] < $today) {
             $license_arr = array(
                 "valid" => "false",
@@ -89,7 +91,7 @@ class LicenseController
         return $response;
     }
 
-    //create a new license
+    // create a new license
     private function createLicense()
     {
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -104,6 +106,7 @@ class LicenseController
         $date->add(new DateInterval('P30D'));
         $valid_until = $date->format('Y-m-d H:i:s');
 
+        // put valid_until to array
         $input["valid_until"] = $valid_until;
 
 
@@ -120,6 +123,7 @@ class LicenseController
         return $response;
     }
 
+    // delete license
     private function deleteLicense($udid)
     {
         $result = $this->licenseGateway->get($udid);
@@ -135,14 +139,19 @@ class LicenseController
         return $response;
     }
 
+    // check if license input is valid
     private function validateLicense($input)
     {
+        // check if product is set
         if (!isset($input['product'])) {
             return false;
         }
+
+        // check if udid is set
         if (!isset($input['udid'])) {
             return false;
         }
+        // check if ip-adress is set and if the format is correct
         if (isset($input['ip'])) {
             if (filter_var($input['ip'], FILTER_VALIDATE_IP)) {
                 /* echo ($input['ip'] . " is a valid IP address"); */
@@ -153,12 +162,15 @@ class LicenseController
         } else {
             return false;
         }
+
+        // check if device_information is set
         if (!isset($input['device_information'])) {
             return false;
         }
         return true;
     }
 
+    // error message for unprocessable entity
     private function unprocessableEntityResponse()
     {
         $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
@@ -168,6 +180,7 @@ class LicenseController
         return $response;
     }
 
+    // error message if not found
     private function notFoundResponse()
     {
         $response['status_code_header'] = 'HTTP/1.1 404 Not Found';

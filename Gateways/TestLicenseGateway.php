@@ -24,6 +24,7 @@ class TestLicenseGateway
         $this->db = $db;
     }
 
+    // select all licenses
     public function getAll()
     {
         // select all query
@@ -48,6 +49,7 @@ class TestLicenseGateway
         }
     }
 
+    // select license with specific udid
     public function get($udid)
     {
         $query = "SELECT *
@@ -66,7 +68,8 @@ class TestLicenseGateway
         }
     }
 
-    public function check($udid, $product)
+    // select license with udid and product 
+    public function check($product, $udid)
     {
         // select udid, valid_until, product query
         $query = "SELECT
@@ -95,6 +98,7 @@ class TestLicenseGateway
         }
     }
 
+    // insert new license
     public function insert(array $input)
     {
         $query = "INSERT INTO
@@ -126,7 +130,7 @@ class TestLicenseGateway
                 return $stmt->rowCount();
             } else {
                 $arr = $stmt->errorInfo();
-                print_r($arr); 
+                print_r($arr);
             }
             return false;
         } catch (PDOException $e) {
@@ -134,6 +138,7 @@ class TestLicenseGateway
         }
     }
 
+    // delete spcific license
     public function delete($udid)
     {
         $query = "DELETE FROM " . $this->table_name . " WHERE udid = :udid; ";
@@ -147,28 +152,7 @@ class TestLicenseGateway
         }
     }
 
-    // check if UDID is already registered
-    function checkUDID($udid)
-    {
-        // query to read single record
-        $query = "SELECT udid FROM " . $this->table_name . " WHERE udid = ? LIMIT 0,1";
-
-        // prepare query statement
-        $stmt = $this->conn->prepare($query);
-
-        // bind udid and product_id
-        $stmt->bindParam(1, $this->udid);
-
-        // execute query
-        $stmt->execute();
-
-        // get retrieved row
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // set values to object properties
-        $this->udid_check = $row['udid'];
-    }
-
+    // update last_check field in db
     function updateLastCheck($udid)
     {
         // update last_check query

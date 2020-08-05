@@ -1,5 +1,6 @@
-#remove php file extension-e.g. https://example.com/file.php will become https://example.com/file 
-RewriteEngine on
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.*)$ $1.php [NC,L] 
+RewriteRule license-management/(.*)$ license-management/index.php [QSA,NC,L]
+</IfModule>

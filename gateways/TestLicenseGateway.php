@@ -68,7 +68,7 @@ class TestLicenseGateway
         }
     }
 
-    // select license with udid and product 
+    // select license with product and product 
     public function check($product, $udid)
     {
         // select udid, valid_until, product query
@@ -77,7 +77,7 @@ class TestLicenseGateway
             FROM
                 " . $this->table_name . "
             WHERE
-                udid = ? AND product = ?
+                product = ? AND udid = ?
             LIMIT
                 0,1";
 
@@ -86,7 +86,7 @@ class TestLicenseGateway
             $stmt = $this->db->prepare($query);
 
             // execute query
-            $stmt->execute(array($udid, $product));
+            $stmt->execute(array($product, $udid));
 
             // get retrieved row
             $result = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -75,7 +75,7 @@ class LicenseController
         $result = $this->licenseGateway->check($product, $udid);
         
         //check if udid is equal null or valid_until is smaller than the present date
-        if ($result['udid'] == null or $result['valid_until'] < $today) {
+        if ($result['udid'] == null OR $result['valid_until'] < $today) {
             $license_arr = array(
                 "valid" => "false",
             );

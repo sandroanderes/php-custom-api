@@ -1,23 +1,22 @@
 <?php
-include('config.php');
+require_once('config.php');
 
 class Database
 {
-    // specify your own database credentials
-    private $host = DBHOST;
-    private $db_name = DBNAME;
-    private $username = DBUSER;
-    private $password = DBPWD;
+    // db connection config vars
+    private $dbHost = DBHOST;
+    private $dbName = DBNAME;
+    private $dbUsername = DBUSER;
+    private $dbPassword = DBPWD;
     public $conn;
 
     // get the database connection
     public function getConnection()
     {
-
         $this->conn = null;
 
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn = new PDO("mysql:host=" . $this->dbHost . ";dbname=" . $this->dbName, $this->dbUsername, $this->dbPassword);
             $this->conn->exec("set names utf8");
         } catch (PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
@@ -26,3 +25,4 @@ class Database
         return $this->conn;
     }
 }
+?>

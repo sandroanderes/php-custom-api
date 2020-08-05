@@ -60,7 +60,6 @@ Example of body (header):
     "device_information": "10.12.6, 00:1B:44:11:3A:B7, 2"
 }
 ```
-### Example responses
 
 ## Developement team
 * [@andreasrueedlinger](https://github.com/andreasrueedlinger)
@@ -68,7 +67,7 @@ Example of body (header):
 
 ## Copyright / License
 
-Copyright 2020 Test it
+Copyright 2020 - Test it
 
-This software is licensed distributed under the MIT license. For more information, see 'LICENSE'.
+This software is distributed under the MIT license. For more information, see 'LICENSE'.
 

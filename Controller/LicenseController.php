@@ -109,7 +109,7 @@ class LicenseController
         // put valid_until to array
         $input["valid_until"] = $valid_until;
 
-
+        // check if udid is already registered
         if (!$this->licenseGateway->get($input['udid'])) {
             $result = $this->licenseGateway->insert($input);
             $response['status_code_header'] = 'HTTP/1.1 201 Created';

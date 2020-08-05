@@ -4,6 +4,7 @@
  ## Inhaltsverzeichnis
 
 * [Description](#description)
+* [Coding documentation](#coding-documentation)
 * [Endpoint definitions](#endpoint-definitions)
   * [Check license](#check-license)
   * [Create license](#create-license)
@@ -14,6 +15,18 @@
 
 ## Description
 For the two Test it products, Test it lab and Test it field, a certification authority is required, which we have implemented with a PHP REST API. The respective software checks at the start or in offline mode after a defined period of time whether the license is still valid. This is enabled by a defined endpoint of the REST API. The database distinguishes between purchased and test licenses.
+
+## Coding documentation
+The API contains the four folowing main files:
+* license-management/index.php
+* controller/LicenseController.php
+* gateways/TestLicenseGateway.php
+* config/database.php
+
+The access point "index.php" splits the URL, gets the request method and checks if the endpoint is accessed correctly.
+This information is passed to the "LicenseController.php" together with the database connection. Depending on the type of access method (GET, POST, DELETE) the license controller selects the respective option. The various functions prepare the data to be forwarded to the gateway later or directly to the output. In an MVC environment, this controller would take over the function of the view and the controller. The model in this case is the "TestLicenseGateway.php" that creates the database queries and returns them to the controller. The database connection is established in "database.php".
+
+Translated with www.DeepL.com/Translator (free version)
 
 ## Endpoint definitions
 The REST API has endpoints for the following purposes:

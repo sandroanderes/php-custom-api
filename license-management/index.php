@@ -15,7 +15,7 @@ $uri = explode('/', $uri);
 
 // all of the endpoints start with /test-license
 // everything else results in a 404 Not Found
-if ($uri[2] !== 'test-license') {
+if ($uri[2] !== 'test-licenses') {
     header("HTTP/1.1 404 Not Found");
     exit();
 }

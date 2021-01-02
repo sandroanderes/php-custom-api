@@ -73,12 +73,11 @@ Example of body (header):
 ```
 
 ## Developement team
-* [@andreasrueedlinger](https://github.com/andreasrueedlinger)
 * [@sandroanderes](https://github.com/sandroanderes)
 
 ## Copyright / License
 
-Copyright 2020 - Test it
+Copyright 2021
 
 This software is distributed under the MIT license. For more information, see 'LICENSE'.
 
